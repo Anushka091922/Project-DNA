@@ -17,6 +17,7 @@ To illustrate let me draw a very simple neural network. It’s not a very intere
 And now let’s say that I want to teach this neural network the following pattern: Whenever input 1 fires, fire output 2. When input 2 fires, fire output 3. When input 3 fires, fire output 4. When input 4 fires, fire output 5. Output 1 never gets fired and input 5 never gets fired. To do that you use an algorithm called back propagation and repeatedly tell the network what output you expect for a given input, but that is not what I want to talk about here. I want to talk about the results. I’ll make the connections that the network learns stronger, and the connections that the network doesn’t learn weaker:
 
 2_learned
+
 ![Screenshot 2024-01-29 122321](https://github.com/Anushka091922/Project-DNA/assets/114327511/c1111434-79bc-496c-92f8-eb16ab695414)
 
 
