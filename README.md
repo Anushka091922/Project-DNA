@@ -26,7 +26,8 @@ What happened here is that the weights for some connections have increased, whil
 ## HIDDEN LAYERS
 A simple network like the one above can learn simple patterns like this. If we want to learn more complex patterns, we have to create a network that has more layers. Let’s insert a layer with two neurons in the middle:
 
-## 3_middle_layer
+ 3_middle_layer
+ 
 ![Screenshot 2024-01-29 122340](https://github.com/Anushka091922/Project-DNA/assets/114327511/7d337409-c4a1-4e32-b8e2-9c7681a4fd3d)
 
 
@@ -41,13 +42,14 @@ If you count the number of connections on that last picture you will notice that
 
 The question is whether we can still represent the original pattern in this new representation. To show why that is not obvious, I’ll explain why it doesn’t work if you just have one middle neuron:
 
-## 4_single_middle
+ 4_single_middle
+ 
 ![Screenshot 2024-01-29 122402](https://github.com/Anushka091922/Project-DNA/assets/114327511/ed8bfc6e-54ff-4327-a48b-4e8c648df9f0)
 
 
 If I initialize the weights on here so that the first node fires the second output, all nodes will fire the second output:
 
-## 5_single_middle_weights
+ 5_single_middle_weights
 
 ![Screenshot 2024-01-29 122426](https://github.com/Anushka091922/Project-DNA/assets/114327511/57d478f5-4848-4c46-9361-13efe6be7aa2)
 
@@ -55,7 +57,8 @@ That one node in the middle messes up the ability for my network to learn my ver
 
 So how many nodes do I need to put into the middle to still be able to learn my rule? In real neural networks you usually put hundreds of nodes into that middle layer, but what is the minimal number to learn my pattern? Before I get to the answer I need to explain one more type of neuron that enables my compression: The softmax layer. If I make my output layer a softmax layer, that means that it will look at all the activations on that layer, and that it will only fire the output with the highest activation. That’s where the “max” in the softmax comes from: It fires the max node. The “soft” part is also very important in other contexts because a softmax layer can fire more than one output, but in my case it will only ever fire one output so we’ll stay with this explanation. If I make my middle layer a tanh layer and my output layer a softmax layer, I can represent my pattern just by having two nodes in the middle:
 
-## 6_learned
+6_learned
+
 ![Screenshot 2024-01-29 122446](https://github.com/Anushka091922/Project-DNA/assets/114327511/b348ef74-2b0d-446c-8302-8c155d570bb8)
 
 
@@ -71,19 +74,20 @@ This is a little bit simplified, because the tanh layer doesn’t give out nice 
 
 Let’s quickly run through this for the other three cases as well:
 
-## 8_learned_second_input
+8_learned_second_input
+
 ![Screenshot 2024-01-29 122523](https://github.com/Anushka091922/Project-DNA/assets/114327511/d4160e56-e79f-4a0b-bf31-7f2bc9b520f0)
 
 
-## 9_learned_third_input
 
-## 10_learned_last_input
+
+10_learned_last_input
 
 ![Screenshot 2024-01-29 122539](https://github.com/Anushka091922/Project-DNA/assets/114327511/afbdc52f-1fca-4aa4-b78e-e153ddd52bc5)
 
 As you can see there is always one clear winner and then the softmax layer at the end will make sure that only that one fires and the other outputs remain quiet. When I first saw this behavior I was quite impressed. In fact I saw this behavior on a network with eleven inputs, eleven outputs and just two middle nodes. Can you think of how the above layer would work with eleven inputs? It seems like there’s only four possible combinations for these weights and we’ve used all of them, right? You’re underestimating neural networks. It’s quite impressive how they will try to squeeze any pattern that you throw at them into what’s available. For eleven inputs and eleven outputs it looks like this:
 
-## 14_eleven_numbers
+ 14_eleven_numbers
 
 ![Screenshot 2024-01-29 122601](https://github.com/Anushka091922/Project-DNA/assets/114327511/74f13510-abe2-44ae-9b4c-0826387f3dbd)
 
@@ -91,7 +95,8 @@ That is a lot of connections and a lot of numbers. The network has now decided t
 
 Let’s walk through a random example and see how it works:
 
-## 15_eleven_numbers_example
+15_eleven_numbers_example
+
 ![Screenshot 2024-01-29 122620](https://github.com/Anushka091922/Project-DNA/assets/114327511/8158b96f-d7f1-4c44-939d-632651ffab3c)
 
 
@@ -99,7 +104,8 @@ The node with the largest output value (72 = -10 * -4 + 8 * 4) is the one we wan
 
 I’ll post a second example to show that the weights will activate the desired output for any input:
 
-## 16_second_example
+ 16_second_example
+ 
 ![Screenshot 2024-01-29 122638](https://github.com/Anushka091922/Project-DNA/assets/114327511/a0f94da1-a429-4c1e-981d-88ef6608f9e2)
 
 
