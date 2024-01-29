@@ -10,9 +10,15 @@ To illustrate let me draw a very simple neural network. It’s not a very intere
 
 1_fully_connected
 
+![NN 1](https://github.com/Anushka091922/Project-DNA/assets/114327511/d53cb6e2-8af9-442a-bbc3-87fc24252244)
+
+
+
 And now let’s say that I want to teach this neural network the following pattern: Whenever input 1 fires, fire output 2. When input 2 fires, fire output 3. When input 3 fires, fire output 4. When input 4 fires, fire output 5. Output 1 never gets fired and input 5 never gets fired. To do that you use an algorithm called back propagation and repeatedly tell the network what output you expect for a given input, but that is not what I want to talk about here. I want to talk about the results. I’ll make the connections that the network learns stronger, and the connections that the network doesn’t learn weaker:
 
 2_learned
+![Screenshot 2024-01-29 122321](https://github.com/Anushka091922/Project-DNA/assets/114327511/c1111434-79bc-496c-92f8-eb16ab695414)
+
 
 What happened here is that the weights for some connections have increased, while the weights for most connections have decreased. I haven’t talked about weights yet. Weights are what neural networks learn. When we draw networks, the nodes seem more important. But what the network actually learns and stores are weights on the connections. In the picture above the thick lines have a weight of 1, the others have a weight of 0. (weights can also go negative, and they can go up arbitrarily high)
 
@@ -20,6 +26,8 @@ What happened here is that the weights for some connections have increased, whil
 A simple network like the one above can learn simple patterns like this. If we want to learn more complex patterns, we have to create a network that has more layers. Let’s insert a layer with two neurons in the middle:
 
 ## 3_middle_layer
+![Screenshot 2024-01-29 122340](https://github.com/Anushka091922/Project-DNA/assets/114327511/7d337409-c4a1-4e32-b8e2-9c7681a4fd3d)
+
 
 There are many possible behaviors for those neurons in the middle, and that is the part where most of the magic happens in neural networks. It seems like picking what goes there just requires experimentation and experience. A simple neuron would be the tanh neuron which does these three steps:
 
@@ -33,20 +41,28 @@ If you count the number of connections on that last picture you will notice that
 The question is whether we can still represent the original pattern in this new representation. To show why that is not obvious, I’ll explain why it doesn’t work if you just have one middle neuron:
 
 ## 4_single_middle
+![Screenshot 2024-01-29 122402](https://github.com/Anushka091922/Project-DNA/assets/114327511/ed8bfc6e-54ff-4327-a48b-4e8c648df9f0)
+
 
 If I initialize the weights on here so that the first node fires the second output, all nodes will fire the second output:
 
 ## 5_single_middle_weights
+
+![Screenshot 2024-01-29 122426](https://github.com/Anushka091922/Project-DNA/assets/114327511/57d478f5-4848-4c46-9361-13efe6be7aa2)
 
 That one node in the middle messes up the ability for my network to learn my very simple rule. This network can not learn different behaviors for different input nodes because they all have to go through that one node in the middle. Remember that the node in the middle just adds all of its inputs, so it can not have different behaviors depending on which input it receives. The information of where a value came from gets lost in the summation.
 
 So how many nodes do I need to put into the middle to still be able to learn my rule? In real neural networks you usually put hundreds of nodes into that middle layer, but what is the minimal number to learn my pattern? Before I get to the answer I need to explain one more type of neuron that enables my compression: The softmax layer. If I make my output layer a softmax layer, that means that it will look at all the activations on that layer, and that it will only fire the output with the highest activation. That’s where the “max” in the softmax comes from: It fires the max node. The “soft” part is also very important in other contexts because a softmax layer can fire more than one output, but in my case it will only ever fire one output so we’ll stay with this explanation. If I make my middle layer a tanh layer and my output layer a softmax layer, I can represent my pattern just by having two nodes in the middle:
 
 ## 6_learned
+![Screenshot 2024-01-29 122446](https://github.com/Anushka091922/Project-DNA/assets/114327511/b348ef74-2b0d-446c-8302-8c155d570bb8)
+
 
 Here I’ve made lines with positive weights blue, and lines with negative weights red. This means that if for example the first input fires, I will get these values on the nodes:
 
 7_learned_first_input
+
+![Screenshot 2024-01-29 122502](https://github.com/Anushka091922/Project-DNA/assets/114327511/5d27df39-881c-4fc0-a707-32efed6ede98)
 
 The first node activates both the middle nodes. That activates the second output node with weight two. The next two nodes are canceled out because they receive a positive weight from one of the middle nodes and a negative weight from the other. The last node is activated with weight -2. If I then run softmax on this only the top node will fire. Meaning the bottom node will not fire a negative output. Softmax suppresses everything except for the most active node.
 
@@ -55,26 +71,36 @@ This is a little bit simplified, because the tanh layer doesn’t give out nice 
 Let’s quickly run through this for the other three cases as well:
 
 ## 8_learned_second_input
+![Screenshot 2024-01-29 122523](https://github.com/Anushka091922/Project-DNA/assets/114327511/d4160e56-e79f-4a0b-bf31-7f2bc9b520f0)
+
 
 ## 9_learned_third_input
 
 ## 10_learned_last_input
 
+![Screenshot 2024-01-29 122539](https://github.com/Anushka091922/Project-DNA/assets/114327511/afbdc52f-1fca-4aa4-b78e-e153ddd52bc5)
+
 As you can see there is always one clear winner and then the softmax layer at the end will make sure that only that one fires and the other outputs remain quiet. When I first saw this behavior I was quite impressed. In fact I saw this behavior on a network with eleven inputs, eleven outputs and just two middle nodes. Can you think of how the above layer would work with eleven inputs? It seems like there’s only four possible combinations for these weights and we’ve used all of them, right? You’re underestimating neural networks. It’s quite impressive how they will try to squeeze any pattern that you throw at them into what’s available. For eleven inputs and eleven outputs it looks like this:
 
 ## 14_eleven_numbers
+
+![Screenshot 2024-01-29 122601](https://github.com/Anushka091922/Project-DNA/assets/114327511/74f13510-abe2-44ae-9b4c-0826387f3dbd)
 
 That is a lot of connections and a lot of numbers. The network has now decided to make some connections stronger and other connections weaker. I couldn’t keep using colors and line-style to visualize different strengths because now there are a lot of different values. Whenever I tried to simplify and not use numbers I’d break the network. So instead I just show the numbers. The upper number on each node is the weight of the connection to/from the upper node in the middle layer, and the lower number is the weight of the connection to/from the lower node in the middle layer.
 
 Let’s walk through a random example and see how it works:
 
 ## 15_eleven_numbers_example
+![Screenshot 2024-01-29 122620](https://github.com/Anushka091922/Project-DNA/assets/114327511/8158b96f-d7f1-4c44-939d-632651ffab3c)
+
 
 The node with the largest output value (72 = -10 * -4 + 8 * 4) is the one we want to fire, and softmax will select that. In this picture I’m just multiplying the numbers linearly because the weights on the left actually already have tanh applied (and were then multiplied by 10 to get them into the range -10 to 10 which is slightly nicer for pictures than the range -1 to 1). I can do that in this case since I only ever fire one input. And if I can just do linear math the example is easier to follow.
 
 I’ll post a second example to show that the weights will activate the desired output for any input:
 
 ## 16_second_example
+![Screenshot 2024-01-29 122638](https://github.com/Anushka091922/Project-DNA/assets/114327511/a0f94da1-a429-4c1e-981d-88ef6608f9e2)
+
 
 Here also for my given input n, output n+1 had the highest value at the end and softmax will make that output fire. You could go through a couple more examples and convince yourself that this network has learned the pattern that I want it to learn.
 
